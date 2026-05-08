@@ -1,0 +1,20 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+body {
+  background: #f5f8f7;
+  color: #15231f;
+}
+
+.page-title {
+  font-size: 1.65rem;
+  font-weight: 750;
+}
+
+.card {
+  border-radius: 8px;
+}
+
+.medicine-img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
