@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "Pharmacy Ordering API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5078" },
+    { "key": "token", "value": "" },
+    { "key": "userId", "value": "1" },
+    { "key": "medicineId", "value": "1" },
+    { "key": "prescriptionId", "value": "1" },
+    { "key": "orderId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/register",
+        "body": { "mode": "raw", "raw": "{\n  \"userName\": \"Admin User\",\n  \"userEmail\": \"admin@pharmacy.test\",\n  \"password\": \"Password123\",\n  \"role\": \"Admin\"\n}" }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": { "mode": "raw", "raw": "{\n  \"userEmail\": \"admin@pharmacy.test\",\n  \"password\": \"Password123\"\n}" }
+      }
+    },
+    {
+      "name": "Get Medicines",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/medicines" }
+    },
+    {
+      "name": "Create Medicine",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/medicines",
+        "body": { "mode": "raw", "raw": "{\n  \"medicineName\": \"Cetirizine\",\n  \"medicineDescription\": \"Allergy relief\",\n  \"medicineDosage\": \"10mg\",\n  \"medicinePrice\": 55,\n  \"medicineStock\": 100,\n  \"medicineRequiresPrescription\": false,\n  \"medicineImage\": \"\",\n  \"categoryId\": 1\n}" }
+      }
+    },
+    {
+      "name": "Upload Prescription",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "url": "{{baseUrl}}/api/prescriptions/upload",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "userId", "value": "{{userId}}", "type": "text" },
+            { "key": "file", "type": "file", "src": "" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Approve Prescription",
+      "request": {
+        "method": "PUT",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/prescriptions/approve/{{prescriptionId}}",
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"Approved\"\n}" }
+      }
+    },
+    {
+      "name": "Add Cart Item",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/cart",
+        "body": { "mode": "raw", "raw": "{\n  \"userId\": {{userId}},\n  \"medicineId\": {{medicineId}},\n  \"quantity\": 2\n}" }
+      }
+    },
+    {
+      "name": "Place Order",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/orders",
+        "body": { "mode": "raw", "raw": "{\n  \"userId\": {{userId}},\n  \"prescriptionId\": null\n}" }
+      }
+    },
+    {
+      "name": "Confirm Order",
+      "request": {
+        "method": "PUT",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/orders/status/{{orderId}}",
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"Confirmed\"\n}" }
+      }
+    }
+  ]
+}
